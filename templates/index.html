@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+<script>
+    angular.module('myApp', [])
+        .controller('myCtrl', ['$scope', function($scope) {
+            $scope.message = "Howdy !!";
+        }])
+        .config(function($interpolateProvider) {
+            $interpolateProvider.startSymbol('//').endSymbol('//');
+        });
+</script>
+<body ng-app="myApp" ng-controller="myCtrl">
+
+    <div>
+        <span>Message is //message//</span>
+    </div>
+
+    <div>
+        <p>First Name: <input type="text" ng-model="firstName"></p>
+        <p ng-bind="firstName">Full Name: //firstName//</p>
+        
+    </div>
+    
+    
+
+</body>
+</html>
