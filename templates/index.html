@@ -1,28 +1,49 @@
 <!DOCTYPE html>
 <html lang="en-US">
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
-<script>
-    angular.module('myApp', [])
-        .controller('myCtrl', ['$scope', function($scope) {
-            $scope.message = "Howdy !!";
-        }])
-        .config(function($interpolateProvider) {
-            $interpolateProvider.startSymbol('//').endSymbol('//');
-        });
-</script>
-<body ng-app="myApp" ng-controller="myCtrl">
 
-    <div>
-        <span>Message is //message//</span>
-    </div>
 
-    <div>
+
+<body>
+
+    <div ng-app="myApp">
         <p>First Name: <input type="text" ng-model="firstName"></p>
         <p ng-bind="firstName">Full Name: //firstName//</p>
         
     </div>
+
+
+    <div>
+        <form onsubmit="my_function(); return false;">
+            <p>name: <input type="text" id="choose" required></p>
+            <p><input type="submit"></p>
+
+        </form>
+      
+    </div>
+
+    <p id="demo">Let AJAX change this text.</p>
     
-    
+<script>
+    function my_function() {
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            document.getElementById("demo").innerHTML = this.responseText;
+        }
+        };
+        choose = document.getElementById("choose").value
+        xhttp.open("GET", "http://localhost:5000/name?name="+choose, true);
+        xhttp.send();
+    }
+</script>
+
+<script>
+    angular.module('myApp', [])
+        .config(function($interpolateProvider) {
+            $interpolateProvider.startSymbol('//').endSymbol('//');
+        });
+</script>
 
 </body>
 </html>
