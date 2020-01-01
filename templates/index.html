@@ -1,38 +1,66 @@
 <!DOCTYPE html>
 <html lang="en-US">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
 
 
 
 <body>
 
-    <div ng-app="myApp">
-        <p>First Name: <input type="text" ng-model="firstName"></p>
-        <p ng-bind="firstName">Full Name: //firstName//</p>
+
+
+    
+
         
-    </div>
+    
 
+        
+        
 
-    <div>
-        <form onsubmit="my_function(); return false;">
-            <p>name: <input type="text" id="choose" required></p>
-            <p><input type="submit"></p>
+        <div class="w3-card-4 w3-margin" style="width: 30%  ;"> 
+            <div class="w3-container w3-green w3-center">
+                <h2>Image Name</h2>
+            </div>
+            
+            <form class="w3-container" id="choose_form" onsubmit="my_function(document.getElementById('choose').value); return false;">
+                <p><input class="w3-input" type="text" id="choose" required></p>
+                <p><input  id="get" class="w3-input" value="GET" type="submit"></p>
+            </form>
 
-        </form>
-      
-    </div>
+           
+            <!--<div id="spinner" style="display: none;" class="spinner-border"></div>
+           !-->
+            <p id="demo"></p>
 
-    <p id="demo">Let AJAX change this text.</p>
+          
+        </div>
+
+        
+        
+
+    
+
+    
+
     
 <script>
-    function my_function() {
+    function my_function(choose) {
+        //document.getElementById("spinner").style.display="block";
+        document.getElementById("choose").value="";
+        //document.getElementById("choose_form").style.display="none";
         var xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
-            document.getElementById("demo").innerHTML = this.responseText;
+            document.getElementById("demo").innerHTML += this.responseText + "done! ";
+            //document.getElementById("demo").innerHTML = "done";
+            //document.getElementById("spinner").style.display="none";
         }
         };
-        choose = document.getElementById("choose").value
+        //choose = document.getElementById("choose").value
         xhttp.open("POST", "http://localhost:5000/name?name="+choose, true);
         xhttp.send();
     }
