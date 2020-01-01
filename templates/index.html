@@ -33,7 +33,7 @@
         }
         };
         choose = document.getElementById("choose").value
-        xhttp.open("GET", "http://localhost:5000/name?name="+choose, true);
+        xhttp.open("POST", "http://localhost:5000/name?name="+choose, true);
         xhttp.send();
     }
 </script>

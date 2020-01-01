@@ -11,7 +11,7 @@ loop = asyncio.get_event_loop()
 def index():
     return render_template('index.html')
 
-@app.route('/name',methods = ['GET'])
+@app.route('/name',methods = ['POST'])
 def name():
 
     
