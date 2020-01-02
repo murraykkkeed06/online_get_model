@@ -2,13 +2,23 @@ import os
 import asyncio
 from flask import Flask, render_template, request
 from google_images_download import google_images_download
+from fastai.vision import *
+from fastai.imports import *
+import train
+
 app = Flask(__name__)
 
-loop = asyncio.get_event_loop()
+
 
 
 @app.route('/')
 def index():
+    return render_template('index.html')
+
+@app.route('/train')
+def train():
+    os.system('python train.py')
+
     return render_template('index.html')
 
 @app.route('/name',methods = ['POST'])
@@ -17,20 +27,30 @@ def name():
     
     imgChoose = request.args.get('name')
 
-    loop.run_until_complete(my_function(imgChoose))
+    my_function(imgChoose)
 
     return imgChoose
 
 
-async def my_function(imgChoose):
+def my_function(imgChoose):
     
     response = google_images_download.googleimagesdownload()
-    response.download({"keywords":imgChoose,"limit":30})
+    response.download({"keywords":imgChoose,"limit":50})
     
+    download_dirname = dirname = os.path.dirname(os.path.realpath(__file__)) + "\downloads" 
+
+    path = Path('downloads')
+
+    for name in os.listdir(download_dirname):
+        #print(path/name)
+        verify_images(path/name, delete=True, max_size=50)
+
+
+
     dirname = os.path.dirname(os.path.realpath(__file__)) + "\downloads\\" + imgChoose
 
     i=0
-
+    
     for name in os.listdir(dirname):
 
         dst = imgChoose + str(i) + ".jpg"

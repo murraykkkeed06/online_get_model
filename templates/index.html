@@ -34,11 +34,19 @@
            
             <!--<div id="spinner" style="display: none;" class="spinner-border"></div>
            !-->
-            <p id="demo"></p>
+            
+            <div class="w3-center">
+                <button class="w3-button w3-green w3-margin" onclick="train_function()">train</button>
+            </div>
+            
 
+            <div class="w3-container w3-myfont">
+                <p class="w3-xxlarge" id="demo"></p>
+            </div>
           
         </div>
 
+       
         
         
 
@@ -55,7 +63,7 @@
         var xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
-            document.getElementById("demo").innerHTML += this.responseText + "done! ";
+            document.getElementById("demo").innerHTML += this.responseText + " done! ";
             //document.getElementById("demo").innerHTML = "done";
             //document.getElementById("spinner").style.display="none";
         }
@@ -64,9 +72,14 @@
         xhttp.open("POST", "http://localhost:5000/name?name="+choose, true);
         xhttp.send();
     }
-</script>
 
-<script>
+    function train_function(){
+        var xhttp = new XMLHttpRequest();
+        xhttp.open("GET", "http://localhost:5000/train", true);
+        xhttp.send();
+
+    }
+
     angular.module('myApp', [])
         .config(function($interpolateProvider) {
             $interpolateProvider.startSymbol('//').endSymbol('//');
