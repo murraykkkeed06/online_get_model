@@ -30,12 +30,18 @@ def name():
     my_function(imgChoose)
 
     return imgChoose
+@app.route('/delete',methods = ['POST'])
+def delete():
+    choose = request.args.get('name')
+    os.remove(choose)
+    return "delete done!"
+
 
 
 def my_function(imgChoose):
     
     response = google_images_download.googleimagesdownload()
-    response.download({"keywords":imgChoose,"limit":50})
+    response.download({"keywords":imgChoose,"limit":3})
     
     download_dirname = dirname = os.path.dirname(os.path.realpath(__file__)) + "\downloads" 
 

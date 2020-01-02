@@ -26,23 +26,27 @@
                 <h2>Image Name</h2>
             </div>
             
-            <form class="w3-container" id="choose_form" onsubmit="my_function(document.getElementById('choose').value); return false;">
+            <form class="w3-container" id="choose_form" onsubmit="my_function(document.getElementById('choose').value);  return false;">
                 <p><input class="w3-input" type="text" id="choose" required></p>
                 <p><input  id="get" class="w3-input" value="GET" type="submit"></p>
             </form>
+
+            
+
+            <div id="btn_s" class="w3-container w3-myfont">  
+                <p id="btn_e"></p>
+            </div>
 
            
             <!--<div id="spinner" style="display: none;" class="spinner-border"></div>
            !-->
             
             <div class="w3-center">
-                <button class="w3-button w3-green w3-margin" onclick="train_function()">train</button>
+                <button class="btn btn-warning w3-margin" onclick="train_function()">train</button>
             </div>
             
 
-            <div class="w3-container w3-myfont">
-                <p class="w3-xxlarge" id="demo"></p>
-            </div>
+            
           
         </div>
 
@@ -56,6 +60,8 @@
 
     
 <script>
+   
+
     function my_function(choose) {
         //document.getElementById("spinner").style.display="block";
         document.getElementById("choose").value="";
@@ -63,7 +69,9 @@
         var xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
-            document.getElementById("demo").innerHTML += this.responseText + " done! ";
+            //document.getElementById(choose).innerHTML += this.responseText + " done! ";
+            document.getElementById(choose).innerHTML +=  " done! ";
+            document.getElementById("btn_"+choose).style.display='none';
             //document.getElementById("demo").innerHTML = "done";
             //document.getElementById("spinner").style.display="none";
         }
@@ -71,6 +79,21 @@
         //choose = document.getElementById("choose").value
         xhttp.open("POST", "http://localhost:5000/name?name="+choose, true);
         xhttp.send();
+
+        var start = document.getElementById("btn_s");
+        var end = document.getElementById("btn_e")
+        var div = document.createElement("div");
+        div.innerHTML = "<button class=' btn btn-primary w3-margin' id='"+choose+"' disabled><span id='btn_"+choose+"' class='spinner-grow spinner-grow-sm'></span>"+choose+"<button onclick='delete_function()' type='button' class='close w3-margin' aria-label='Close'><span aria-hidden='true'>&times;</span></button></button>";
+        start.insertBefore(div,end)     
+    }
+
+    function delete_function(){
+
+        var xhttp = new XMLHttpRequest();
+        xhttp.open("POST", "http://localhost:5000/delete?name=carp", true);
+        xhttp.send();
+
+
     }
 
     function train_function(){
