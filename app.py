@@ -27,44 +27,89 @@ def name():
     
     imgChoose = request.args.get('name')
 
-    my_function(imgChoose)
+    
 
-    return imgChoose
+    return my_function(imgChoose)
+
+@app.route('/get_num',methods=['POST'])
+def get_num():
+    choose= request.args.get('name')
+
+    dirname = os.path.dirname(os.path.realpath(__file__)) + "\\static\\downloads\\" + choose
+    i=0
+    for filename in os.listdir(dirname):
+        print(i)
+        i+=1
+
+    return str(i)
+
+
 @app.route('/delete',methods = ['POST'])
 def delete():
     choose = request.args.get('name')
-    os.remove(choose)
+
+    download_dirname = os.path.dirname(os.path.realpath(__file__)) + "\\static\\downloads" 
+
+    dirname = os.path.dirname(os.path.realpath(__file__)) + "\\static\\downloads\\" + choose
+
+    for filename in os.listdir(dirname):
+        if filename.endswith('.jpg'):
+            os.remove(dirname +"\\" + filename)
+
+   
+    os.rmdir(download_dirname+"\\"+choose)
+
     return "delete done!"
 
 
 
 def my_function(imgChoose):
+
+    origin_dirname = os.path.dirname(os.path.realpath(__file__))
+    static_dirname = os.path.dirname(os.path.realpath(__file__)) + "\\static" 
+    download_dirname = os.path.dirname(os.path.realpath(__file__)) + "\\static\\downloads" 
+    img_dirname = os.path.dirname(os.path.realpath(__file__)) + "\\static\\downloads\\" + imgChoose
     
-    response = google_images_download.googleimagesdownload()
-    response.download({"keywords":imgChoose,"limit":3})
+
+    os.chdir(static_dirname)
     
-    download_dirname = dirname = os.path.dirname(os.path.realpath(__file__)) + "\downloads" 
+    try:
+        response = google_images_download.googleimagesdownload()
+        response.download({"keywords":imgChoose,"limit":3})
+    except:
+        return "error"
 
-    path = Path('downloads')
-
-    for name in os.listdir(download_dirname):
-        #print(path/name)
-        verify_images(path/name, delete=True, max_size=50)
-
-
-
-    dirname = os.path.dirname(os.path.realpath(__file__)) + "\downloads\\" + imgChoose
-
-    i=0
+    os.chdir(origin_dirname)
+    print(origin_dirname)
     
-    for name in os.listdir(dirname):
+    
+    if len(os.listdir(img_dirname)) == 0:
+        return "error"
 
-        dst = imgChoose + str(i) + ".jpg"
-        src = dirname + '\\' + name
-        dst = dirname + '\\'+ dst
+    path = Path('static\\downloads')
+    try:
+        for name in os.listdir(download_dirname):
+            print(path/name)
+            verify_images(path/name, delete=True, max_size=500)
+    except:
+        return "error"
+
+
+    try:
+        i=0
         
-        os.rename(src,dst)
-        i+=1
+        for name in os.listdir(img_dirname):
+
+            dst = imgChoose + str(i) + ".jpg"
+            src = img_dirname + '\\' + name
+            dst = img_dirname + '\\'+ dst
+            
+            os.rename(src,dst)
+            i+=1
+    except:
+        return "error"
+
+    return imgChoose
 
 if __name__ == '__main__':
     app.run(debug = True)
