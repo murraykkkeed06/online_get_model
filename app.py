@@ -31,17 +31,24 @@ def name():
 
     return my_function(imgChoose)
 
-@app.route('/get_num',methods=['POST'])
+@app.route('/show',methods=['POST'])
 def get_num():
     choose= request.args.get('name')
 
     dirname = os.path.dirname(os.path.realpath(__file__)) + "\\static\\downloads\\" + choose
-    i=0
-    for filename in os.listdir(dirname):
-        print(i)
-        i+=1
+    
+    os.startfile(dirname)
 
-    return str(i)
+    return "open sucess!"
+
+@app.route('/result',methods=['POST'])
+def result():
+    
+    dirname = os.path.dirname(os.path.realpath(__file__)) + "\\static\\downloads" 
+    
+    os.startfile(dirname)
+
+    return "open sucess!"
 
 
 @app.route('/delete',methods = ['POST'])
@@ -75,7 +82,7 @@ def my_function(imgChoose):
     
     try:
         response = google_images_download.googleimagesdownload()
-        response.download({"keywords":imgChoose,"limit":3})
+        response.download({"keywords":imgChoose,"limit":10})
     except:
         return "error"
 

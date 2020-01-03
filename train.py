@@ -12,7 +12,7 @@ def my_function():
 
         loop = asyncio.get_event_loop()
 
-        path = Path('downloads')
+        path = Path('static/downloads')
 
         np.random.seed(42)
 

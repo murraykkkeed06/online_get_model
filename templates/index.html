@@ -11,14 +11,6 @@
 
 <body>
 
-
-
-    
-
-        
-    
-
-        
         
 
         <div class="w3-card-4 w3-margin" style="width: 40%  ;"> 
@@ -42,24 +34,25 @@
            !-->
             
             <div class="w3-center">
-                <button class="btn btn-warning w3-margin" onclick="train_function()">train</button>
-            </div>
+                <button id="train_btn" class="btn btn-warning w3-margin" onclick="train_function()">
+ 
+                    train
+                </button>
+                
+
             
-           
-          
+            </div>
+            <div id="spinner_train" class="spinner-grow spinner-grow-sm" style="display: none;"></div>
+            
+            
+            <button id="result_btn" class="btn btn-dark" onclick="show_result()" style="display: none;">result</button>
+            
+
+            
+            
         </div>
 
 
-       
-
-
-        
-        
-        
-
-    
-
-    
 
     
 <script>
@@ -67,7 +60,46 @@
    
     var imagelist = []
 
+    function train_function(){
 
+        if(imagelist.length<2){
+            alert("please input at least 2 image name")
+        }else{
+            var xhttp = new XMLHttpRequest();
+            xhttp.open("GET", "http://localhost:5000/train", true);
+            xhttp.send();
+
+            document.getElementById("train_btn").innerHTML="Loading...";
+            document.getElementById("spinner_train").style.display = "block";
+
+            xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                document.getElementById("train_btn").innerHTML="done!";
+                document.getElementById("spinner_train").style.display = "none";
+                document.getElementById("train_btn").disabled = true;
+                document.getElementById("result_btn").style.display = "block";
+                }
+            };
+
+
+
+        }
+    }
+
+    function show_result(){
+
+        var xhttp = new XMLHttpRequest();
+            xhttp.open("POST", "http://localhost:5000/result", true);
+            xhttp.send();
+    }
+
+
+    function show_img(image){
+       
+        var xhttp = new XMLHttpRequest();
+        xhttp.open("POST", "http://localhost:5000/show?name="+image.value, true);
+        xhttp.send();
+    }
 
     function check_image(image){
         
@@ -123,7 +155,7 @@
         
     
         
-        div.innerHTML = "<div class='w3-container'><p><button id='"+choose+"' value='"+choose+"' class=' btn btn-primary w3-margin' id='img_btn'><span id='spinner_"+choose+"' class='spinner-grow spinner-grow-sm'></span>"+choose+"</button><button style='display:none;' id='delete_btn_"+choose+"' onclick='delete_function("+choose+")' type='button' class='close w3-margin' aria-label='Close'><span aria-hidden='true'>&times;</span></button></p></div>";
+        div.innerHTML = "<div class='w3-container'><p><button id='"+choose+"' value='"+choose+"' class=' btn btn-primary w3-margin' id='img_btn' onclick='show_img("+choose+")'><span id='spinner_"+choose+"' class='spinner-grow spinner-grow-sm'></span>"+choose+"</button><button style='display:none;' id='delete_btn_"+choose+"' onclick='delete_function("+choose+")' type='button' class='close w3-margin' aria-label='Close'><span aria-hidden='true'>&times;</span></button></p></div>";
         //div.innerHTML = "<p><button id='"+choose+"' value='"+choose+"' class='w3-button w3-white w3-border' id='img_btn'><span id='spinner_"+choose+"' class='spinner-grow spinner-grow-sm'></span>"+choose+"</button><button class='w3-button w3-yellow w3-border' id='error_btn_"+choose+"'style='display:block;'>error</button><button style='display:none;' id='delete_btn_"+choose+"' onclick='delete_function("+choose+")' class='w3-button w3-white w3-border w3-round-large' >X</button></p>";
         
         start.insertBefore(div,end)     
@@ -148,17 +180,7 @@
 
     }
 
-    function train_function(){
-
-        if(imagelist.length<2){
-            alert("please input at least 2 image name")
-        }else{
-            var xhttp = new XMLHttpRequest();
-            xhttp.open("GET", "http://localhost:5000/train", true);
-            xhttp.send();
-
-        }
-    }
+    
 
    
 </script>
