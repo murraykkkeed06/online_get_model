@@ -1,5 +1,4 @@
 import os 
-import asyncio
 from flask import Flask, render_template, request
 from google_images_download import google_images_download
 from fastai.vision import *
@@ -104,4 +103,4 @@ def my_function(imgChoose):
     return imgChoose
 
 if __name__ == '__main__':
-    app.run(debug = True)
+    app.run(host='0.0.0.0')
