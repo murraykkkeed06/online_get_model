@@ -23,7 +23,7 @@ git clone https://github.com/murraykkkeed06/online_get_model.git
 python app.py
 
 ```
-
+(or you can use docker)
 ## Usage
 - [ ] Flask
 - [ ] fastai

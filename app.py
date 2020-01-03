@@ -34,14 +34,14 @@ def name():
 @app.route('/show',methods=['POST'])
 def get_num():
     choose= request.args.get('name')
-    dirname = os.path.dirname(os.path.realpath(__file__)) + "\\static\\downloads\\" + choose
+    dirname = os.path.dirname(os.path.realpath(__file__)) + "/static/downloads/" + choose
     os.startfile(dirname)
     return "open sucess!"
 
 
 @app.route('/result',methods=['POST'])
 def result():
-    dirname = os.path.dirname(os.path.realpath(__file__)) + "\\static\\downloads" 
+    dirname = os.path.dirname(os.path.realpath(__file__)) + "/static/downloads" 
     os.startfile(dirname)
     return "open sucess!"
 
@@ -49,19 +49,19 @@ def result():
 @app.route('/delete',methods = ['POST'])
 def delete():
     choose = request.args.get('name')
-    download_dirname = os.path.dirname(os.path.realpath(__file__)) + "\\static\\downloads" 
-    dirname = os.path.dirname(os.path.realpath(__file__)) + "\\static\\downloads\\" + choose
+    download_dirname = os.path.dirname(os.path.realpath(__file__)) + "/static/downloads" 
+    dirname = os.path.dirname(os.path.realpath(__file__)) + "/static/downloads/" + choose
     for filename in os.listdir(dirname):
         if filename.endswith('.jpg'):
-            os.remove(dirname +"\\" + filename)
-    os.rmdir(download_dirname+"\\"+choose)
+            os.remove(dirname +"/" + filename)
+    os.rmdir(download_dirname+"/"+choose)
     return "delete done!"
 
 def my_function(imgChoose):
     origin_dirname = os.path.dirname(os.path.realpath(__file__))
-    static_dirname = os.path.dirname(os.path.realpath(__file__)) + "\\static" 
-    download_dirname = os.path.dirname(os.path.realpath(__file__)) + "\\static\\downloads" 
-    img_dirname = os.path.dirname(os.path.realpath(__file__)) + "\\static\\downloads\\" + imgChoose
+    static_dirname = os.path.dirname(os.path.realpath(__file__)) + "/static" 
+    download_dirname = os.path.dirname(os.path.realpath(__file__)) + "/static/downloads" 
+    img_dirname = os.path.dirname(os.path.realpath(__file__)) + "/static/downloads/" + imgChoose
     os.chdir(static_dirname)
 
     try:
@@ -76,7 +76,7 @@ def my_function(imgChoose):
     if len(os.listdir(img_dirname)) == 0:
         return "error"
 
-    path = Path('static\\downloads')
+    path = Path('static/downloads')
 
     try:
         for name in os.listdir(download_dirname):
@@ -92,8 +92,8 @@ def my_function(imgChoose):
         for name in os.listdir(img_dirname):
 
             dst = imgChoose + str(i) + ".jpg"
-            src = img_dirname + '\\' + name
-            dst = img_dirname + '\\'+ dst
+            src = img_dirname + '/' + name
+            dst = img_dirname + '/'+ dst
             
             os.rename(src,dst)
             i+=1
