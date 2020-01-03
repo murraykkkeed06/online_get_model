@@ -7,7 +7,13 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
 
-
+<style>
+    .thumb {
+      height: 75px;
+      border: 1px solid #000;
+      margin: 10px 5px 0 0;
+    }
+</style>
 
 <body>
 
@@ -23,35 +29,26 @@
                 <p><input  id="get" class="w3-input" value="GET" type="submit"></p>
             </form>
 
-            
 
             <div id="btn_s" class="w3-container">  
                 <p id="btn_e"></p>
             </div>
 
-           
-            <!--<div id="spinner" style="display: none;" class="spinner-border"></div>
-           !-->
             
             <div class="w3-center">
                 <button id="train_btn" class="btn btn-warning w3-margin" onclick="train_function()">
  
                     train
                 </button>
-                
-
-            
+          
             </div>
+
             <div id="spinner_train" class="spinner-grow spinner-grow-sm" style="display: none;"></div>
             
-            
-            <button id="result_btn" class="btn btn-dark" onclick="show_result()" style="display: none;">result</button>
-            
-
-            
-            
+            <button id="result_btn" class="btn btn-dark" onclick="show_result()" style="display: none;">result</button>          
         </div>
 
+  
 
 
     
@@ -80,14 +77,10 @@
                 document.getElementById("result_btn").style.display = "block";
                 }
             };
-
-
-
         }
     }
 
     function show_result(){
-
         var xhttp = new XMLHttpRequest();
             xhttp.open("POST", "http://localhost:5000/result", true);
             xhttp.send();
@@ -99,12 +92,12 @@
         var xhttp = new XMLHttpRequest();
         xhttp.open("POST", "http://localhost:5000/show?name="+image.value, true);
         xhttp.send();
+
     }
 
     function check_image(image){
         
         var repeat = false;
-
         imagelist.forEach(function(item){   
             if(item==image){
                 repeat = true;  
@@ -122,45 +115,35 @@
     }
 
     function my_function(choose) {
-        //document.getElementById("spinner").style.display="block";
         document.getElementById("choose_input").value="";
-        //document.getElementById("choose_form").style.display="none";
         var xhttp = new XMLHttpRequest();
+        
         xhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
-            //document.getElementById(choose).innerHTML += this.responseText + " done! ";
-           
+     
             document.getElementById("spinner_"+choose).style.display='none';
             document.getElementById("delete_btn_"+choose).style.display='block';
+
             if(this.responseText=="error"){
-                //document.getElementById("error_btn_"+choose).style.display='block';
                 document.getElementById(choose).innerHTML +=  " error! ";
                 alert("error ocurr please delete the " +choose+" image!")
                 
             }else{
                 document.getElementById(choose).innerHTML +=  " done! ";
             }
-            //document.getElementById("demo").innerHTML = "done";
-            //document.getElementById("spinner").style.display="none";
         }
         };
-        //choose = document.getElementById("choose").value
         xhttp.open("POST", "http://localhost:5000/name?name="+choose, true);
         xhttp.send();
 
         var start = document.getElementById("btn_s");
         var end = document.getElementById("btn_e")
         var div = document.createElement("div");
-        
-        
-    
-        
-        div.innerHTML = "<div class='w3-container'><p><button id='"+choose+"' value='"+choose+"' class=' btn btn-primary w3-margin' id='img_btn' onclick='show_img("+choose+")'><span id='spinner_"+choose+"' class='spinner-grow spinner-grow-sm'></span>"+choose+"</button><button style='display:none;' id='delete_btn_"+choose+"' onclick='delete_function("+choose+")' type='button' class='close w3-margin' aria-label='Close'><span aria-hidden='true'>&times;</span></button></p></div>";
-        //div.innerHTML = "<p><button id='"+choose+"' value='"+choose+"' class='w3-button w3-white w3-border' id='img_btn'><span id='spinner_"+choose+"' class='spinner-grow spinner-grow-sm'></span>"+choose+"</button><button class='w3-button w3-yellow w3-border' id='error_btn_"+choose+"'style='display:block;'>error</button><button style='display:none;' id='delete_btn_"+choose+"' onclick='delete_function("+choose+")' class='w3-button w3-white w3-border w3-round-large' >X</button></p>";
-        
-        start.insertBefore(div,end)     
 
-        
+        div.innerHTML = "<div class='w3-container'><p><button id='"+choose+"' value='"+choose+"' class=' btn btn-primary w3-margin' id='img_btn' onclick='show_img("+choose+")'><span id='spinner_"+choose+"' class='spinner-grow spinner-grow-sm'></span>"+choose+"</button><button style='display:none;' id='delete_btn_"+choose+"' onclick='delete_function("+choose+")' type='button' class='close w3-margin' aria-label='Close'><span aria-hidden='true'>&times;</span></button></p></div>";
+                
+        start.insertBefore(div,end)     
+      
     }
 
     function delete_function(choose){
@@ -176,13 +159,7 @@
             imagelist.splice(index, 1);
         }
         
-
-
-    }
-
-    
-
-   
+    } 
 </script>
 
 </body>
